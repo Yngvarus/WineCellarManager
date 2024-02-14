@@ -30,6 +30,40 @@ public class WineBottle
     //Costruttore dell'obj Winebottle 
     public WineBottle(string name, string vineyard, string location, int year, string style, string cellarLocation, int stock, double sellingPrice, double buyingPrice, string tastingNotes)
     {
+        // Controlla che le stringhe non siano vuote
+        if (string.IsNullOrEmpty(name))
+            throw new ArgumentException("Il nome non può essere vuoto.", nameof(name));
+
+        if (string.IsNullOrEmpty(vineyard))
+            throw new ArgumentException("Il vigneto non può essere vuoto.", nameof(vineyard));
+
+        if (string.IsNullOrEmpty(location))
+            throw new ArgumentException("Il luogo d'origine non può essere vuota.", nameof(location));
+
+        if (string.IsNullOrEmpty(style))
+            throw new ArgumentException("Lo stile non può essere vuoto.", nameof(style));
+
+        if (string.IsNullOrEmpty(cellarLocation))
+            throw new ArgumentException("La posizione in cantina non può essere vuota.", nameof(cellarLocation));
+
+        if (string.IsNullOrEmpty(tastingNotes))
+            throw new ArgumentException("Le note di degustazione non possono essere vuote.", nameof(tastingNotes));
+
+        // Controlla che gli interi e i double abbiano un valore valido
+        if (year <= 0)
+            throw new ArgumentException("L'anno deve essere maggiore di zero.", nameof(year));
+
+        if (stock < 0)
+            throw new ArgumentException("La quantità in magazzino non può essere negativa.", nameof(stock));
+
+        if (sellingPrice <= 0)
+            throw new ArgumentException("Il prezzo di vendita deve essere maggiore di zero.", nameof(sellingPrice));
+
+        if (buyingPrice <= 0)
+            throw new ArgumentException("Il prezzo di acquisto deve essere maggiore di zero.", nameof(buyingPrice));
+
+
+        // Assegna i valori ai campi
         this.Name = name;
         this.Vineyard = vineyard;
         this.Location = location;
@@ -40,6 +74,7 @@ public class WineBottle
         this.SellingPrice = sellingPrice;
         this.BuyingPrice = buyingPrice;
         this.TastingNotes = tastingNotes;
+
         Console.WriteLine("Oggetto bottiglia di vino creato");
     }
 
@@ -56,13 +91,13 @@ public class WineBottle
     public override int GetHashCode()
     {
         HashCode hash = new HashCode();
+
         hash.Add(name);
         hash.Add(vineyard);
         hash.Add(year);
         hash.Add(style);
         hash.Add(cellarLocation);
+
         return hash.ToHashCode();
     }
-
-
 }
