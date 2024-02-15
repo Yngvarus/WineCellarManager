@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WineCellarManager", "WineCellarManager.csproj", "{A5F3E483-A1A9-4AD9-97C4-60D5A50D0980}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WineCellarManagerItems", "WineCellarManagerItems.csproj", "{A5F3E483-A1A9-4AD9-97C4-60D5A50D0980}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementi di soluzione", "Elementi di soluzione", "{A729FF47-FC87-41EF-B6F8-DBCA5EA12869}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,9 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementi di soluzione", "El
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WineBottleTest", "..\WineBottleTest\WineBottleTest.csproj", "{69C0A543-3463-4C40-80D3-0D30775EDCB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineBottleManagerApp", "..\WineBottleManagerApp\WineBottleManagerApp.csproj", "{4F97A939-DEEC-4899-B928-AC46C5D86341}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineBottleManagerForm", "..\WineBottleManagerForm\WineBottleManagerForm.csproj", "{CE3D354A-4DE2-4A15-817C-3DFC59A949AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WineBottleManagerForm", "..\WineBottleManagerForm\WineBottleManagerForm.csproj", "{CE3D354A-4DE2-4A15-817C-3DFC59A949AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +28,6 @@ Global
 		{69C0A543-3463-4C40-80D3-0D30775EDCB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69C0A543-3463-4C40-80D3-0D30775EDCB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69C0A543-3463-4C40-80D3-0D30775EDCB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F97A939-DEEC-4899-B928-AC46C5D86341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F97A939-DEEC-4899-B928-AC46C5D86341}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F97A939-DEEC-4899-B928-AC46C5D86341}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F97A939-DEEC-4899-B928-AC46C5D86341}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE3D354A-4DE2-4A15-817C-3DFC59A949AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE3D354A-4DE2-4A15-817C-3DFC59A949AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE3D354A-4DE2-4A15-817C-3DFC59A949AB}.Release|Any CPU.ActiveCfg = Release|Any CPU

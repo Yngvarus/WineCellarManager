@@ -7,13 +7,17 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WineCellarManager
 {
-
     public class WineManager
     {
         private List<WineBottle> wineBottles = new List<WineBottle>();
-        String conString = "aggiungere la stringa di connessione";
+        private String conString = "aggiungere la stringa di connessione";
 
-        public WineManager() 
+        public WineManager()
+        {
+            LoadWineBottlesFromDatabase();
+        }
+
+        private void LoadWineBottlesFromDatabase()
         {
             using (SqlConnection conn = new SqlConnection(conString))
             {
@@ -41,11 +45,8 @@ namespace WineCellarManager
                             );
 
                             wineBottles.Add(wineBottle);
-                        };
+                        }
                     }
-
-                    conn.Close();
-
                 }
                 catch (Exception ex)
                 {
@@ -57,10 +58,12 @@ namespace WineCellarManager
                 }
             }
         }
-        public List<WineBottle> GetWineBottles() 
-        { 
+
+        public List<WineBottle> GetWineBottles()
+        {
             return wineBottles;
         }
+
         public void AddWineBottle(WineBottle bottle)
         {
             try
@@ -85,9 +88,9 @@ namespace WineCellarManager
                     command.Parameters.AddWithValue("@TastingNotes", bottle.TastingNotes);
 
                     command.ExecuteNonQuery();
-
-                    conn.Close();
                 }
+                // Aggiorna la lista interna dopo l'aggiunta di una nuova bottiglia
+                wineBottles.Add(bottle);
             }
             catch (Exception ex)
             {
@@ -97,8 +100,6 @@ namespace WineCellarManager
 
         public void RemoveWineBottle(WineBottle bottle)
         {
-            String bottleName = bottle.Name;
-            int bottleYear = bottle.Year;
             try
             {
                 using (SqlConnection conn = new SqlConnection(conString))
@@ -108,23 +109,98 @@ namespace WineCellarManager
                     string query = @"DELETE FROM WineBottles WHERE Name = @bottleName AND Year = @bottleYear";
 
                     SqlCommand command = new SqlCommand(query, conn);
-                    command.Parameters.AddWithValue("@bottleName", bottleName);
-                    command.Parameters.AddWithValue("@bottleYear", bottleYear);
+                    command.Parameters.AddWithValue("@bottleName", bottle.Name);
+                    command.Parameters.AddWithValue("@bottleYear", bottle.Year);
 
                     command.ExecuteNonQuery();
-
-                    conn.Close();
                 }
+                // Rimuovi la bottiglia dalla lista interna dopo la rimozione dal database
+                wineBottles.Remove(bottle);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Errore durante la rimozione della bottiglia: " + ex.Message);
             }
         }
-    }
 
-    // un metodo per aggiornare la lista interna
-    // un metodo per aggiornare i cambiamenti tra lista e db
-    // metodi per modificare singolarmente i valori delle wineBottle
-    // metodo per controllare il numero in stock quindi if(<1) messageBox con richiesta di rimozione
+        // Metodo per aggiornare un singolo attributo di una bottiglia di vino
+        public void UpdateWineBottleAttribute(WineBottle bottle, String attributeName, object newValue)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conString))
+                {
+                    conn.Open();
+
+                    string query = $@"UPDATE WineBottles SET {attributeName} = @newValue WHERE Name = @bottleName AND Year = @bottleYear";
+
+                    SqlCommand command = new SqlCommand(query, conn);
+                    command.Parameters.AddWithValue("@newValue", newValue);
+                    command.Parameters.AddWithValue("@bottleName", bottle.Name);
+                    command.Parameters.AddWithValue("@bottleYear", bottle.Year);
+
+                    command.ExecuteNonQuery();
+                }
+                // Aggiorna la lista interna dopo la modifica dell'attributo
+                int index = wineBottles.FindIndex(b => b.Name == bottle.Name && b.Year == bottle.Year);
+                if (index != -1)
+                {
+                    switch (attributeName)
+                    {
+                        case "Name":
+                            wineBottles[index].Name = (string)newValue;
+                            break;
+                        case "Vineyard":
+                            wineBottles[index].Vineyard = (string)newValue;
+                            break;
+                        case "Location":
+                            wineBottles[index].Location = (string)newValue;
+                            break;
+                        case "Year":
+                            wineBottles[index].Year = (int)newValue;
+                            break;
+                        case "Style":
+                            wineBottles[index].Style = (string)newValue;
+                            break;
+                        case "CellarLocation":
+                            wineBottles[index].CellarLocation = (string)newValue;
+                            break;
+                        case "Stock":
+                            wineBottles[index].Stock = (int)newValue;
+                            break;
+                        case "SellingPrice":
+                            wineBottles[index].SellingPrice = (double)newValue;
+                            break;
+                        case "BuyingPrice":
+                            wineBottles[index].BuyingPrice = (double)newValue;
+                            break;
+                        case "TastingNotes":
+                            wineBottles[index].TastingNotes = (string)newValue;
+                            break;
+                        default:
+                            Console.WriteLine("Attributo non valido");
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Errore durante l'aggiornamento dell'attributo: " + ex.Message);
+            }
+        }
+
+        // Metodo per controllare il numero di bottiglie in magazzino e rimuovere se minore di 1
+        public void CheckStockAndRemoveIfNeeded()
+        {
+            foreach (var bottle in wineBottles)
+            {
+                if (bottle.Stock < 1)
+                {
+                    RemoveWineBottle(bottle);
+                    Console.WriteLine($"La bottiglia {bottle.Name} {bottle.Year} è stata rimossa perché il numero in magazzino era inferiore a 1.");
+                }
+            }
+        }
+    }
 }
+
