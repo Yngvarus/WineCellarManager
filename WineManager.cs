@@ -9,14 +9,17 @@ namespace WineCellarManager
 {
     public class WineManager
     {
+        //attributi
         private List<WineBottle> wineBottles = new List<WineBottle>();
         private String conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
 
+        //Costruttore
         public WineManager()
         {
             LoadWineBottlesFromDatabase();
         }
 
+        //metodo per caricare i dati da db a List
         private void LoadWineBottlesFromDatabase()
         {
             using (SqlConnection conn = new SqlConnection(conString))
@@ -59,6 +62,7 @@ namespace WineCellarManager
             }
         }
 
+        //metodo che restituisce la lista delle bottiglie
         public List<WineBottle> GetWineBottles()
         {
             return wineBottles;
@@ -77,6 +81,7 @@ namespace WineCellarManager
             }
         }
 
+        //metodo per aggiungere bottiglie al db
         public void AddWineBottle(WineBottle bottle)
         {
             try
@@ -111,6 +116,7 @@ namespace WineCellarManager
             }
         }
 
+        //metodo per rimuovere bottiglie dal db, 
         public void RemoveWineBottle(WineBottle bottle)
         {
             try
