@@ -10,7 +10,7 @@ namespace WineCellarManager
     public class WineManager
     {
         private List<WineBottle> wineBottles = new List<WineBottle>();
-        private String conString = "aggiungere la stringa di connessione";
+        private String conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
 
         public WineManager()
         {
@@ -62,6 +62,19 @@ namespace WineCellarManager
         public List<WineBottle> GetWineBottles()
         {
             return wineBottles;
+        }
+
+        // Metodo per controllare il numero di bottiglie in magazzino e rimuovere se minore di 1
+        public void CheckStockAndRemoveIfNeeded()
+        {
+            foreach (var bottle in wineBottles)
+            {
+                if (bottle.Stock < 1)
+                {
+                    RemoveWineBottle(bottle);
+                    Console.WriteLine($"La bottiglia {bottle.Name} {bottle.Year} è stata rimossa perché il numero in magazzino era inferiore a 1.");
+                }
+            }
         }
 
         public void AddWineBottle(WineBottle bottle)
@@ -167,6 +180,7 @@ namespace WineCellarManager
                             break;
                         case "Stock":
                             wineBottles[index].Stock = (int)newValue;
+                            CheckStockAndRemoveIfNeeded();
                             break;
                         case "SellingPrice":
                             wineBottles[index].SellingPrice = (double)newValue;
@@ -186,19 +200,6 @@ namespace WineCellarManager
             catch (Exception ex)
             {
                 Console.WriteLine("Errore durante l'aggiornamento dell'attributo: " + ex.Message);
-            }
-        }
-
-        // Metodo per controllare il numero di bottiglie in magazzino e rimuovere se minore di 1
-        public void CheckStockAndRemoveIfNeeded()
-        {
-            foreach (var bottle in wineBottles)
-            {
-                if (bottle.Stock < 1)
-                {
-                    RemoveWineBottle(bottle);
-                    Console.WriteLine($"La bottiglia {bottle.Name} {bottle.Year} è stata rimossa perché il numero in magazzino era inferiore a 1.");
-                }
             }
         }
     }
