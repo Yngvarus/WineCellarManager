@@ -12,7 +12,7 @@ namespace WineCellarManager
         //attributi
         private List<WineBottle> wineBottles = new List<WineBottle>();
         private String conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
-        
+        private WineBottle? selectedBottle = null;
         public Dictionary<string, string> propertyMap = new Dictionary<string, string>()
         {
             {"Name", "Nome"},
@@ -31,7 +31,15 @@ namespace WineCellarManager
         {
             LoadWineBottlesFromDatabase();
         }
-
+        public WineBottle SelectedBottle
+        {
+            get => selectedBottle;
+            set
+            {
+                // Esegui altre operazioni qui, se necessario
+                selectedBottle = value;
+            }
+        }
         //metodo per caricare i dati da db a List
         private void LoadWineBottlesFromDatabase()
         {
