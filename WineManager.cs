@@ -20,11 +20,11 @@ namespace WineCellarManager
             {"Location", "Origine"},
             {"Year", "Anno"},
             {"Style", "Sile"},
-            {"cellarLocation", "Posizione in magazzino"},
-            {"stock", "Quantità"},
-            {"sellingPrice", "Prezzo di Vendita"},
-            {"buyingPrice", "Prezzo di acquisto"},
-            {"notes", "Annotazioni"}
+            {"CellarLocation", "Posizione in magazzino"},
+            {"Stock", "Quantità"},
+            {"SellingPrice", "Prezzo di Vendita"},
+            {"BuyingPrice", "Prezzo di acquisto"},
+            {"TastingNotes", "Annotazioni"}
         };
         //Costruttore
         public WineManager()
