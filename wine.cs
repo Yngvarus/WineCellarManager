@@ -13,8 +13,8 @@ namespace WineCellarManager
         private String style = "";
         private String cellarLocation = "";
         private int stock = 0;
-        private Double sellingPrice = 0.0f;
-        private Double buyingPrice = 0.0f;
+        private Double sellingPrice = 0.00f;
+        private Double buyingPrice = 0.00f;
         private String tastingNotes = "";
 
         //Setter e getter per le proprietà

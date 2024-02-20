@@ -12,7 +12,20 @@ namespace WineCellarManager
         //attributi
         private List<WineBottle> wineBottles = new List<WineBottle>();
         private String conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
-
+        
+        public Dictionary<string, string> propertyMap = new Dictionary<string, string>()
+        {
+            {"Name", "Nome"},
+            {"Vineyard", "Vigneto"},
+            {"Location", "Origine"},
+            {"Year", "Anno"},
+            {"Style", "Sile"},
+            {"cellarLocation", "Posizione in magazzino"},
+            {"stock", "Quantità"},
+            {"sellingPrice", "Prezzo di Vendita"},
+            {"buyingPrice", "Prezzo di acquisto"},
+            {"notes", "Annotazioni"}
+        };
         //Costruttore
         public WineManager()
         {
