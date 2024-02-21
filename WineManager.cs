@@ -19,7 +19,7 @@ namespace WineCellarManager
             {"Vineyard", "Vigneto"},
             {"Location", "Origine"},
             {"Year", "Anno"},
-            {"Style", "Sile"},
+            {"Style", "Stile"},
             {"CellarLocation", "Posizione in magazzino"},
             {"Stock", "Quantità"},
             {"SellingPrice", "Prezzo di Vendita"},
