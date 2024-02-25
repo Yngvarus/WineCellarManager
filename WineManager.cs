@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Reflection;
 
 namespace WineCellarManager
 {
@@ -36,7 +37,6 @@ namespace WineCellarManager
             get => selectedBottle;
             set
             {
-                // Esegui altre operazioni qui, se necessario
                 selectedBottle = value;
             }
         }
@@ -206,8 +206,16 @@ namespace WineCellarManager
                             wineBottles[index].CellarLocation = (string)newValue;
                             break;
                         case "Stock":
-                            wineBottles[index].Stock = (int)newValue;
-                            CheckStockAndRemoveIfNeeded();
+                            int newStockValue = (int)newValue;
+                            if (newStockValue >= wineBottles[index].Stock)
+                            {
+                                wineBottles[index].Stock = newStockValue;
+                                CheckStockAndRemoveIfNeeded();
+                            }
+                            else
+                            {
+                                wineBottles[index].Stock = newStockValue;
+                            }
                             break;
                         case "SellingPrice":
                             wineBottles[index].SellingPrice = (double)newValue;
@@ -229,6 +237,91 @@ namespace WineCellarManager
                 Console.WriteLine("Errore durante l'aggiornamento dell'attributo: " + ex.Message);
             }
         }
+
+        public void addQuantity(WineBottle bottle, int newValue)
+        {
+            String stock = "Stock";
+            UpdateWineBottleAttribute(bottle, stock, newValue);
+        }
+
+        public void removeQuantity(WineBottle bottle, int newValue)
+        {
+            String stock = "Stock";
+            UpdateWineBottleAttribute(bottle, stock, newValue);
+        }
+
+        public void SortWineBottles(string attributeName, SortOrder sortOrder)
+        {
+            // Trova la corrispondenza italiana dell'attributo
+            string ActualAttributeName = propertyMap.FirstOrDefault(x => x.Value == attributeName).Key;
+
+            // Se non viene trovata una corrispondenza, esci dalla funzione
+            if (ActualAttributeName == null)
+            {
+                Console.WriteLine("Attributo non trovato.");
+                return;
+            }
+
+            // Seleziona la proprietà corrispondente all'attributo
+            var property = typeof(WineBottle).GetProperty(ActualAttributeName);
+
+            // Ordina le bottiglie di vino in base all'attributo trovato
+            if (property != null)
+            {
+                wineBottles = sortOrder == SortOrder.Ascending ?
+                    wineBottles.OrderBy(b => property.GetValue(b) as IComparable).ToList() :
+                    wineBottles.OrderByDescending(b => property.GetValue(b) as IComparable).ToList();
+            }
+            else if (ActualAttributeName == "CellarLocation" || ActualAttributeName == "TastingNotes")
+            {
+                // Se l'attributo corrisponde a CellarLocation o TastingNotes, non ordinare
+                return;
+            }
+            else
+            {
+                // Se l'attributo non corrisponde a nessun caso specifico, ordina per nome di default
+                wineBottles = sortOrder == SortOrder.Ascending ?
+                    wineBottles.OrderBy(b => b.Name).ToList() :
+                    wineBottles.OrderByDescending(b => b.Name).ToList();
+            }
+        }
+
+        public List<WineBottle> FilterWineBottles(string propertyName, string searchTerm)
+        {
+            // Trova la corrispondenza italiana dell'attributo
+            string actualPropertyName = propertyMap.FirstOrDefault(x => x.Value == propertyName).Key;
+
+            // Se la proprietà è vuota o non è valida, imposta la proprietà predefinita al nome
+            if (string.IsNullOrWhiteSpace(actualPropertyName) || !propertyMap.ContainsKey(actualPropertyName))
+            {
+                propertyName = "Name";
+            }
+
+            // Se il termine di ricerca è vuoto, restituisci l'intera lista
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return wineBottles;
+            }
+
+
+
+            // Seleziona la proprietà corrispondente all'attributo
+            var property = typeof(WineBottle).GetProperty(actualPropertyName);
+
+            // Verifica se la proprietà è nulla prima di utilizzarla
+            if (property != null)
+            {
+                // Filtra le bottiglie di vino in base alla proprietà e al termine di ricerca
+                return wineBottles.Where(bottle => property.GetValue(bottle)?.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
+            }
+            else
+            {
+                // Se la proprietà è null, restituisci l'intera lista
+                return wineBottles;
+            }
+        }
+
     }
 }
+
 
