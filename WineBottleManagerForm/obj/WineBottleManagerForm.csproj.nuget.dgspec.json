@@ -1,0 +1,157 @@
+{
+  "format": 1,
+  "restore": {
+    "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineBottleManagerForm\\WineBottleManagerForm.csproj": {}
+  },
+  "projects": {
+    "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineBottleManagerForm\\WineBottleManagerForm.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineBottleManagerForm\\WineBottleManagerForm.csproj",
+        "projectName": "WineBottleManagerForm",
+        "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineBottleManagerForm\\WineBottleManagerForm.csproj",
+        "packagesPath": "C:\\Users\\Igor\\.nuget\\packages\\",
+        "outputPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineBottleManagerForm\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "M:\\Programmi x86\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Igor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {
+              "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItems.csproj": {
+                "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItems.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItems.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItems.csproj",
+        "projectName": "WineCellarManagerItems",
+        "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItems.csproj",
+        "packagesPath": "C:\\Users\\Igor\\.nuget\\packages\\",
+        "outputPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "M:\\Programmi x86\\Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Igor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.15, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
