@@ -71,3 +71,4 @@ M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerFor
 M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerForm\obj\Debug\net7.0-windows\WineBottleManagerForm.pdb
 M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerForm\obj\Debug\net7.0-windows\WineBottleManagerForm.genruntimeconfig.cache
 M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerForm\obj\Debug\net7.0-windows\ref\WineBottleManagerForm.dll
+M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerForm\obj\Debug\net7.0-windows\WineBottleManagerForm.sourcelink.json

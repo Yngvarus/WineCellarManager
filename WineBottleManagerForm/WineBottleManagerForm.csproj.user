@@ -10,10 +10,10 @@
     <Compile Update="mainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="removeAddForm.cs">
+    <Compile Update="modifyBottleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="modifyBottleForm.cs">
+    <Compile Update="removeAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="shelfForm.cs">

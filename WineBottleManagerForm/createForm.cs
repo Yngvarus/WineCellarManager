@@ -1,57 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WineCellarManager;
 
 namespace WineBottleManagerForm
 {
-    
     public partial class createForm : Form
     {
-        //attributi
-        private WineManager wineManager;
+        #region Fields
+        // Attributi
+        private readonly WineManager wineManager;
+        #endregion
 
-        //inizializzazione
+        #region Constructor
+        // Inizializzazione
         public createForm(WineManager wineManager)
         {
             this.wineManager = wineManager;
             InitializeComponent();
         }
+        #endregion
 
-        //bottoni sidebar
+        #region Sidebar Buttons
+        // Bottoni della barra laterale
         private void btnToMain_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm));
         }
+
         private void btnToShelf_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(shelfForm));
         }
+
         private void btnToCatalogue_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(catalogueForm));
         }
+
         private void btnAddRem_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(removeAddForm));
         }
+
         private void btnModify_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(modifyBottleForm));
         }
+        #endregion
 
-        //metodi
+        #region Methods
+        // Metodo chiamato quando il form viene chiuso
         private void createForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }
 
+        // Pulisce i campi di testo
         public void ClearText()
         {
             nameTextBox.Text = string.Empty;
@@ -66,13 +70,28 @@ namespace WineBottleManagerForm
             tastingTextBox.Text = string.Empty;
         }
 
+        // Crea una nuova bottiglia e aggiungila al manager delle bottiglie
         private void btnCreateBottle_Click(object sender, EventArgs e)
         {
-            WineBottle createdB = new WineBottle(nameTextBox.Text.ToString(), vineyardTextBox.Text.ToString(), locationTextBox.Text.ToString(), int.Parse(yearTextBox.Text), styleTextBox.Text.ToString(), cellarLocationTextBox.Text.ToString(), int.Parse(stockTextBox.Text), double.Parse(sellingTextBox.Text.ToString()), double.Parse(buyingTextBox.Text.ToString()), tastingTextBox.Text.ToString());
-            wineManager.AddWineBottle(createdB);
-            wineManager.SelectedBottle = createdB;
-            btnToMain_Click(sender, e);
+            WineBottle createdBottle = new WineBottle(
+                nameTextBox.Text,
+                vineyardTextBox.Text,
+                locationTextBox.Text,
+                int.Parse(yearTextBox.Text),
+                styleTextBox.Text,
+                cellarLocationTextBox.Text,
+                int.Parse(stockTextBox.Text),
+                decimal.Parse(sellingTextBox.Text),
+                decimal.Parse(buyingTextBox.Text),
+                tastingTextBox.Text
+            );
+
+            wineManager.AddWineBottle(createdBottle);
+            wineManager.SelectedBottle = createdBottle;
+            var f = FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm)) as MainMenuForm;
+            f?.PopulateLbl(wineManager.SelectedBottle);
             ClearText();
         }
+        #endregion
     }
 }

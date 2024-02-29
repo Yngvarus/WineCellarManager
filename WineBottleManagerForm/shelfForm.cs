@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WineCellarManager;
 
@@ -13,24 +11,27 @@ namespace WineBottleManagerForm
 {
     public partial class shelfForm : Form
     {
-        //attributi
-        private WineManager wineManager;
-        private List<String> currentFilters = new List<String>();
+        #region Fields
+        // Attributi
+        private readonly WineManager wineManager;
+        private readonly List<string> currentFilters = new List<string>();
+        #endregion
 
-        //inizializzazione
+        #region Constructor
+        // Inizializzazione
         public shelfForm(WineManager wineManager)
         {
-            //database manager creato nel main passato 
             this.wineManager = wineManager;
-            //inizializzazione componenti form
             InitializeComponent();
-            //gestione tablella
-            shelfDataGrid.DataSource = wineManager.GetWineBottles();
+            SortShelfListBox(); // Ordina alfabeticamente la lista
             PopulateShelfListBox();
-
+            shelfDataGrid.DataSource = wineManager.GetWineBottles();
+            GenerateColumns();
         }
+        #endregion
 
-        //bottoni sidebar
+        #region Sidebar Buttons
+        // Bottoni della barra laterale
         private void btnToMain_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm));
@@ -45,103 +46,98 @@ namespace WineBottleManagerForm
         {
             FormUtilities.OpenForm(this, wineManager, typeof(modifyBottleForm));
         }
+        #endregion
 
-        //metodi
+        #region Methods
+        // Metodo per gestire la chiusura del form
         private void shelfForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }
 
+        // Metodo chiamato quando il form diventa visibile
         private void shelfForm_VisibleChanged(object sender, EventArgs e)
         {
-            if (this.Visible)
+            if (Visible)
             {
-                // Aggiorna la sorgente dati della griglia quando il form diventa visibile
+                shelfListBox.Items.Clear(); // Pulisce la lista prima di popolarla
+                PopulateShelfListBox();
                 shelfDataGrid.DataSource = wineManager.GetWineBottles();
             }
         }
 
-        private void generateColListBox()
+        // Metodo per ordinare alfabeticamente la lista delle posizioni in cantina
+        private void SortShelfListBox()
         {
-            //gestione tabella
-            shelfDataGrid.Columns["location"].Visible = false;
-            shelfDataGrid.Columns["cellarLocation"].Visible = false;
-            shelfDataGrid.Columns["stock"].Visible = false;
-            shelfDataGrid.Columns["sellingPrice"].Visible = false;
-            shelfDataGrid.Columns["buyingPrice"].Visible = false;
-            shelfDataGrid.Columns["tastingNotes"].Visible = false;
+            shelfListBox.Sorted = true;
+        }
+
+        // Metodo per generare le colonne della lista
+        private void GenerateColumns()
+        {
             foreach (DataGridViewColumn column in shelfDataGrid.Columns)
             {
-                    // Traduci il nome della colonna
+                if (column.Name == "Location" || column.Name == "CellarLocation" || column.Name == "Stock" ||
+                    column.Name == "SellingPrice" || column.Name == "BuyingPrice" || column.Name == "TastingNotes")
+                    column.Visible = false;
+                else
                     column.HeaderText = wineManager.propertyMap[column.Name];
             }
         }
+
+        // Metodo per popolare la lista delle posizioni in cantina
         private void PopulateShelfListBox()
         {
-            //formatta le colonne
-            generateColListBox();
-            // Ottieni tutti i valori univoci di cellarLocation dalla sorgente dati
-            List<string> uniqueCellarLocations = wineManager.GetWineBottles()
+            GenerateColumns();
+
+            var uniqueCellarLocations = wineManager.GetWineBottles()
                                                     .Select(bottle => bottle.CellarLocation)
                                                     .Distinct()
+                                                    .OrderBy(location => location) // Ordina alfabeticamente
                                                     .ToList();
 
-            // Aggiungi i valori univoci come membri a shelfListBox
-            foreach (string location in uniqueCellarLocations)
-            {
+            foreach (var location in uniqueCellarLocations)
                 shelfListBox.Items.Add(location);
-            }
         }
 
-
+        // Metodo chiamato quando cambia lo stato di selezione di un elemento nella lista delle posizioni in cantina
         private void shelfListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            string selectedLocation = shelfListBox.Items[e.Index].ToString();
+            var selectedLocation = shelfListBox.Items[e.Index].ToString();
 
-            // Verifica se l'evento è stato causato da un cambio di stato di selezione
             if (e.NewValue == CheckState.Checked)
-            {
-                // Aggiungi il nuovo filtro solo se la crocetta è stata appena selezionata
                 currentFilters.Add(selectedLocation);
-            }
             else if (e.NewValue == CheckState.Unchecked)
             {
-                // Rimuovi il filtro corrispondente alla crocetta deselezionata
                 currentFilters.Remove(selectedLocation);
-                // Verifica se non ci sono crocette selezionate
                 if (shelfListBox.CheckedItems.Count - 1 == 0)
                 {
-                    // Se non ci sono crocette selezionate, mostra tutti i dati
                     shelfDataGrid.DataSource = wineManager.GetWineBottles();
-                    return; // Esci dalla funzione dopo aver mostrato tutti i dati
+                    return;
                 }
             }
 
-            // Rimuovi filtri precedenti
             shelfDataGrid.DataSource = null;
 
-            // Filtra le bottiglie basate sui valori selezionati
             var filteredBottles = wineManager.GetWineBottles()
                                         .Where(bottle => currentFilters.Contains(bottle.CellarLocation))
                                         .ToList();
 
-            // Aggiorna la shelfDataGrid con i filtri correnti
             shelfDataGrid.DataSource = filteredBottles;
-            generateColListBox();
+            GenerateColumns();
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            var f = FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm)) as MainMenuForm;            
-            f.PopulateLbl(wineManager.SelectedBottle);
+            var mainMenuForm = FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm)) as MainMenuForm;
+            mainMenuForm?.PopulateLbl(wineManager.SelectedBottle);
         }
 
         private void btnModify_Click(object sender, EventArgs e)
         {
-            var f = FormUtilities.OpenForm(this, wineManager, typeof(modifyBottleForm)) as modifyBottleForm;
-            f.PopulateWithSelectedBottle(wineManager.SelectedBottle);
+            var modifyBottleForm = FormUtilities.OpenForm(this, wineManager, typeof(modifyBottleForm)) as modifyBottleForm;
+            modifyBottleForm?.PopulateWithSelectedBottle(wineManager.SelectedBottle);
         }
-
-        
+        #endregion
     }
 }

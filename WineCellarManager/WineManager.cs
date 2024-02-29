@@ -1,20 +1,19 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.SqlClient;
-using Microsoft.Data.SqlClient;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Reflection;
+using System.Linq;
 
 namespace WineCellarManager
 {
     public class WineManager
     {
-        //attributi
+        #region Fields
+        // Attributi
         private List<WineBottle> wineBottles = new List<WineBottle>();
-        private String conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
+        private readonly string conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
         private WineBottle? selectedBottle = null;
-        public Dictionary<string, string> propertyMap = new Dictionary<string, string>()
+        public readonly Dictionary<string, string> propertyMap = new Dictionary<string, string>()
         {
             {"Name", "Nome"},
             {"Vineyard", "Vigneto"},
@@ -27,20 +26,26 @@ namespace WineCellarManager
             {"BuyingPrice", "Prezzo di acquisto"},
             {"TastingNotes", "Annotazioni"}
         };
-        //Costruttore
+        #endregion
+
+        #region Constructor
+        // Costruttore
         public WineManager()
         {
             LoadWineBottlesFromDatabase();
         }
+        #endregion
+
+        #region Properties
         public WineBottle SelectedBottle
         {
             get => selectedBottle;
-            set
-            {
-                selectedBottle = value;
-            }
+            set => selectedBottle = value;
         }
-        //metodo per caricare i dati da db a List
+        #endregion
+
+        #region Methods
+        // Metodo per caricare i dati da db a List
         private void LoadWineBottlesFromDatabase()
         {
             using (SqlConnection conn = new SqlConnection(conString))
@@ -48,7 +53,6 @@ namespace WineCellarManager
                 try
                 {
                     conn.Open();
-
                     string query = "SELECT * FROM WineBottles";
                     SqlCommand command = new SqlCommand(query, conn);
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -63,11 +67,10 @@ namespace WineCellarManager
                                 reader["Style"].ToString(),
                                 reader["CellarLocation"].ToString(),
                                 Convert.ToInt32(reader["Stock"]),
-                                double.Parse(reader["SellingPrice"].ToString()),
-                                double.Parse(reader["BuyingPrice"].ToString()),
+                                Convert.ToDecimal(reader["SellingPrice"]),
+                                Convert.ToDecimal(reader["BuyingPrice"]),
                                 reader["TastingNotes"].ToString()
                             );
-
                             wineBottles.Add(wineBottle);
                         }
                     }
@@ -76,18 +79,11 @@ namespace WineCellarManager
                 {
                     Console.WriteLine("Errore durante il caricamento del DB: " + ex.Message);
                 }
-                finally
-                {
-                    conn.Close();
-                }
             }
         }
 
-        //metodo che restituisce la lista delle bottiglie
-        public List<WineBottle> GetWineBottles()
-        {
-            return wineBottles;
-        }
+        // Metodo che restituisce la lista delle bottiglie
+        public List<WineBottle> GetWineBottles() => wineBottles;
 
         // Metodo per controllare il numero di bottiglie in magazzino e rimuovere se minore di 1
         public void CheckStockAndRemoveIfNeeded()
@@ -102,7 +98,7 @@ namespace WineCellarManager
             }
         }
 
-        //metodo per aggiungere bottiglie al db
+        // Metodo per aggiungere bottiglie al db
         public void AddWineBottle(WineBottle bottle)
         {
             try
@@ -110,10 +106,8 @@ namespace WineCellarManager
                 using (SqlConnection conn = new SqlConnection(conString))
                 {
                     conn.Open();
-
                     string query = @"INSERT INTO WineBottles (Name, Vineyard, Location, Year, Style, CellarLocation, Stock, SellingPrice, BuyingPrice, TastingNotes)
                                     VALUES (@Name, @Vineyard, @Location, @Year, @Style, @CellarLocation, @Stock, @SellingPrice, @BuyingPrice, @TastingNotes)";
-
                     SqlCommand command = new SqlCommand(query, conn);
                     command.Parameters.AddWithValue("@Name", bottle.Name);
                     command.Parameters.AddWithValue("@Vineyard", bottle.Vineyard);
@@ -125,7 +119,6 @@ namespace WineCellarManager
                     command.Parameters.AddWithValue("@SellingPrice", bottle.SellingPrice);
                     command.Parameters.AddWithValue("@BuyingPrice", bottle.BuyingPrice);
                     command.Parameters.AddWithValue("@TastingNotes", bottle.TastingNotes);
-
                     command.ExecuteNonQuery();
                 }
                 // Aggiorna la lista interna dopo l'aggiunta di una nuova bottiglia
@@ -137,7 +130,7 @@ namespace WineCellarManager
             }
         }
 
-        //metodo per rimuovere bottiglie dal db, 
+        // Metodo per rimuovere bottiglie dal db
         public void RemoveWineBottle(WineBottle bottle)
         {
             try
@@ -145,13 +138,10 @@ namespace WineCellarManager
                 using (SqlConnection conn = new SqlConnection(conString))
                 {
                     conn.Open();
-
                     string query = @"DELETE FROM WineBottles WHERE Name = @bottleName AND Year = @bottleYear";
-
                     SqlCommand command = new SqlCommand(query, conn);
                     command.Parameters.AddWithValue("@bottleName", bottle.Name);
                     command.Parameters.AddWithValue("@bottleYear", bottle.Year);
-
                     command.ExecuteNonQuery();
                 }
                 // Rimuovi la bottiglia dalla lista interna dopo la rimozione dal database
@@ -164,72 +154,25 @@ namespace WineCellarManager
         }
 
         // Metodo per aggiornare un singolo attributo di una bottiglia di vino
-        public void UpdateWineBottleAttribute(WineBottle bottle, String attributeName, object newValue)
+        public void UpdateWineBottleAttribute(WineBottle bottle, string attributeName, object newValue)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(conString))
                 {
                     conn.Open();
-
                     string query = $@"UPDATE WineBottles SET {attributeName} = @newValue WHERE Name = @bottleName AND Year = @bottleYear";
-
                     SqlCommand command = new SqlCommand(query, conn);
                     command.Parameters.AddWithValue("@newValue", newValue);
                     command.Parameters.AddWithValue("@bottleName", bottle.Name);
                     command.Parameters.AddWithValue("@bottleYear", bottle.Year);
-
                     command.ExecuteNonQuery();
                 }
                 // Aggiorna la lista interna dopo la modifica dell'attributo
                 int index = wineBottles.FindIndex(b => b.Name == bottle.Name && b.Year == bottle.Year);
-                if (index != -1)
+                if (index != -1 && newValue is IComparable comparable)
                 {
-                    switch (attributeName)
-                    {
-                        case "Name":
-                            wineBottles[index].Name = (string)newValue;
-                            break;
-                        case "Vineyard":
-                            wineBottles[index].Vineyard = (string)newValue;
-                            break;
-                        case "Location":
-                            wineBottles[index].Location = (string)newValue;
-                            break;
-                        case "Year":
-                            wineBottles[index].Year = (int)newValue;
-                            break;
-                        case "Style":
-                            wineBottles[index].Style = (string)newValue;
-                            break;
-                        case "CellarLocation":
-                            wineBottles[index].CellarLocation = (string)newValue;
-                            break;
-                        case "Stock":
-                            int newStockValue = (int)newValue;
-                            if (newStockValue >= wineBottles[index].Stock)
-                            {
-                                wineBottles[index].Stock = newStockValue;
-                                CheckStockAndRemoveIfNeeded();
-                            }
-                            else
-                            {
-                                wineBottles[index].Stock = newStockValue;
-                            }
-                            break;
-                        case "SellingPrice":
-                            wineBottles[index].SellingPrice = (double)newValue;
-                            break;
-                        case "BuyingPrice":
-                            wineBottles[index].BuyingPrice = (double)newValue;
-                            break;
-                        case "TastingNotes":
-                            wineBottles[index].TastingNotes = (string)newValue;
-                            break;
-                        default:
-                            Console.WriteLine("Attributo non valido");
-                            break;
-                    }
+                    wineBottles[index].GetType().GetProperty(attributeName)?.SetValue(wineBottles[index], newValue);
                 }
             }
             catch (Exception ex)
@@ -238,41 +181,29 @@ namespace WineCellarManager
             }
         }
 
-        public void addQuantity(WineBottle bottle, int newValue)
-        {
-            String stock = "Stock";
-            UpdateWineBottleAttribute(bottle, stock, newValue);
-        }
+        // Metodo per aggiungere la quantità a una bottiglia di vino
+        public void AddQuantity(WineBottle bottle, int newValue) => UpdateWineBottleAttribute(bottle, "Stock", newValue);
 
-        public void removeQuantity(WineBottle bottle, int newValue)
-        {
-            String stock = "Stock";
-            UpdateWineBottleAttribute(bottle, stock, newValue);
-        }
+        // Metodo per rimuovere la quantità da una bottiglia di vino
+        public void RemoveQuantity(WineBottle bottle, int newValue) => UpdateWineBottleAttribute(bottle, "Stock", newValue);
 
+        // Metodo per ordinare le bottiglie di vino
         public void SortWineBottles(string attributeName, SortOrder sortOrder)
         {
-            // Trova la corrispondenza italiana dell'attributo
-            string ActualAttributeName = propertyMap.FirstOrDefault(x => x.Value == attributeName).Key;
-
-            // Se non viene trovata una corrispondenza, esci dalla funzione
-            if (ActualAttributeName == null)
+            string actualAttributeName = propertyMap.FirstOrDefault(x => x.Value == attributeName).Key;
+            if (actualAttributeName == null)
             {
                 Console.WriteLine("Attributo non trovato.");
                 return;
             }
-
-            // Seleziona la proprietà corrispondente all'attributo
-            var property = typeof(WineBottle).GetProperty(ActualAttributeName);
-
-            // Ordina le bottiglie di vino in base all'attributo trovato
+            var property = typeof(WineBottle).GetProperty(actualAttributeName);
             if (property != null)
             {
                 wineBottles = sortOrder == SortOrder.Ascending ?
                     wineBottles.OrderBy(b => property.GetValue(b) as IComparable).ToList() :
                     wineBottles.OrderByDescending(b => property.GetValue(b) as IComparable).ToList();
             }
-            else if (ActualAttributeName == "CellarLocation" || ActualAttributeName == "TastingNotes")
+            else if (actualAttributeName == "CellarLocation" || actualAttributeName == "TastingNotes")
             {
                 // Se l'attributo corrisponde a CellarLocation o TastingNotes, non ordinare
                 return;
@@ -286,42 +217,28 @@ namespace WineCellarManager
             }
         }
 
+        // Metodo per filtrare le bottiglie di vino
         public List<WineBottle> FilterWineBottles(string propertyName, string searchTerm)
         {
-            // Trova la corrispondenza italiana dell'attributo
             string actualPropertyName = propertyMap.FirstOrDefault(x => x.Value == propertyName).Key;
-
-            // Se la proprietà è vuota o non è valida, imposta la proprietà predefinita al nome
             if (string.IsNullOrWhiteSpace(actualPropertyName) || !propertyMap.ContainsKey(actualPropertyName))
             {
                 propertyName = "Name";
             }
-
-            // Se il termine di ricerca è vuoto, restituisci l'intera lista
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
                 return wineBottles;
             }
-
-
-
-            // Seleziona la proprietà corrispondente all'attributo
             var property = typeof(WineBottle).GetProperty(actualPropertyName);
-
-            // Verifica se la proprietà è nulla prima di utilizzarla
             if (property != null)
             {
-                // Filtra le bottiglie di vino in base alla proprietà e al termine di ricerca
                 return wineBottles.Where(bottle => property.GetValue(bottle)?.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
             }
             else
             {
-                // Se la proprietà è null, restituisci l'intera lista
                 return wineBottles;
             }
         }
-
+        #endregion
     }
 }
-
-

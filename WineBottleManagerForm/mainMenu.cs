@@ -1,12 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WineCellarManager;
 
@@ -14,17 +6,23 @@ namespace WineBottleManagerForm
 {
     public partial class MainMenuForm : Form
     {
-        //attributi
-        private WineManager wineManager;
+        #region Fields
+        // Attributi
+        private readonly WineManager wineManager;
+        private bool firstLoad = true; // Flag per tracciare il primo caricamento del form
+        #endregion
 
-        //inizializzazione
+        #region Constructor
+        // Inizializzazione
         public MainMenuForm(WineManager wineManager)
         {
             this.wineManager = wineManager;
             InitializeComponent();
         }
+        #endregion
 
-        //bottoni sidebar
+        #region Sidebar Buttons
+        // Bottoni della barra laterale
         private void btnToShelf_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(shelfForm));
@@ -39,20 +37,42 @@ namespace WineBottleManagerForm
         {
             FormUtilities.OpenForm(this, wineManager, typeof(modifyBottleForm));
         }
+        #endregion
 
-        //metodi
+        #region Methods
+        // Metodo chiamato quando il form diventa visibile
+        private void MainMenuForm_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible)
+            {
+                // Popola le etichette solo se non è il primo caricamento dell'applicazione
+                if (!firstLoad)
+                    PopulateLbl(wineManager.SelectedBottle);
+                else
+                    firstLoad = false;
+            }
+        }
+
+        // Metodo per popolare le etichette con i dettagli della bottiglia selezionata
         public void PopulateLbl(WineBottle selectedWineBottle)
         {
-            lblName.Text = selectedWineBottle.Name;
-            String locYear = selectedWineBottle.Location + " " + selectedWineBottle.Year;
-            lblLocYear.Text = locYear;
-            lblVineyard.Text = selectedWineBottle.Vineyard;
-            String notes = selectedWineBottle.Style + " - " + selectedWineBottle.TastingNotes;
-            lblNote.Text = notes;
-            String stockPos = "Quantità: " + selectedWineBottle.Stock + " - " + selectedWineBottle.CellarLocation;
-            lblStockPos.Text = stockPos;
-            String price = "Vendita: " + selectedWineBottle.SellingPrice + "€" + "/Acquisto: " + selectedWineBottle.BuyingPrice + "€";
-            lblPrice.Text = price;
+            if (selectedWineBottle != null)
+            {
+                lblName.Text = selectedWineBottle.Name;
+                string locYear = $"{selectedWineBottle.Location} {selectedWineBottle.Year}";
+                lblLocYear.Text = locYear;
+                lblVineyard.Text = selectedWineBottle.Vineyard;
+                string notes = $"{selectedWineBottle.Style} - {selectedWineBottle.TastingNotes}";
+                lblNote.Text = notes;
+                string stockPos = $"Quantità: {selectedWineBottle.Stock} - {selectedWineBottle.CellarLocation}";
+                lblStockPos.Text = stockPos;
+                string price = $"Vendita: {selectedWineBottle.SellingPrice}€ / Acquisto: {selectedWineBottle.BuyingPrice}€";
+                lblPrice.Text = price;
+            }
+            else
+            {
+                ClearText(); // Se non è stata selezionata alcuna bottiglia, pulisci le etichette
+            }
         }
 
         private void ClearText()
@@ -75,25 +95,32 @@ namespace WineBottleManagerForm
         {
             ClearText();
             var f = FormUtilities.OpenForm(this, wineManager, typeof(modifyBottleForm)) as modifyBottleForm;
-            f.PopulateWithSelectedBottle(wineManager.SelectedBottle);
+            f?.PopulateWithSelectedBottle(wineManager.SelectedBottle);
         }
 
-        private void btnCreate_Click(Object sender, EventArgs e)
+        private void btnCreate_Click(object sender, EventArgs e)
         {
             ClearText();
             FormUtilities.OpenForm(this, wineManager, typeof(createForm));
         }
 
-        private void addRemBottleBtn_Click(Object sender, EventArgs e)
+        private void addRemBottleBtn_Click(object sender, EventArgs e)
         {
             ClearText();
             var f = FormUtilities.OpenForm(this, wineManager, typeof(removeAddForm)) as removeAddForm;
-            f.PopulateText(wineManager.SelectedBottle);
+            f?.PopulateText(wineManager.SelectedBottle);
         }
 
-        private Type CallType()
+        private Type CallType() => GetType();
+
+        private void MainMenufForm_VisibleChanged(object sender, EventArgs e)
         {
-            return this.GetType();
+            if (this.Visible)
+            {
+                // Aggiorna la sorgente dati delle labels quando il form diventa visibile
+                this.PopulateLbl(wineManager.SelectedBottle);
+            }
         }
+        #endregion
     }
 }

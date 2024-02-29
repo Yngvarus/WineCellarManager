@@ -1,13 +1,5 @@
-﻿using NUnit.Framework.Constraints;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WineCellarManager;
 
@@ -15,25 +7,32 @@ namespace WineBottleManagerForm
 {
     public partial class modifyBottleForm : Form
     {
-        //attributi
-        private WineManager wineManager;
+        #region Fields
+        // Attributi
+        private readonly WineManager wineManager;
+        #endregion
 
-        //inizializzazione
+        #region Constructor
+        // Inizializzazione
         public modifyBottleForm(WineManager wineManager)
         {
             this.wineManager = wineManager;
             InitializeComponent();
         }
+        #endregion
 
-        //bottoni sidebar
+        #region Sidebar Buttons
+        // Bottoni della barra laterale
         private void btnToMain_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm));
         }
+
         private void btnToShelf_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(shelfForm));
         }
+
         private void btnToCatalogue_Click(object sender, EventArgs e)
         {
             FormUtilities.OpenForm(this, wineManager, typeof(catalogueForm));
@@ -43,20 +42,24 @@ namespace WineBottleManagerForm
         {
             FormUtilities.OpenForm(this, wineManager, typeof(removeAddForm));
         }
+
         private void btnCreate_Click(object sender, EventArgs e)
-        {   
+        {
             FormUtilities.OpenForm(this, wineManager, typeof(createForm));
         }
+        #endregion
 
-        //metodi
+        #region Methods
+        // Metodo chiamato quando il form viene chiuso
         private void modifyBottleForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
-        
+
+        // Popola i campi di testo con i dati della bottiglia selezionata
         public void PopulateWithSelectedBottle(WineBottle wineBottle)
         {
-            if(wineBottle == null)
+            if (wineBottle == null)
                 return;
 
             nameTextBox.Text = wineBottle.Name;
@@ -66,11 +69,12 @@ namespace WineBottleManagerForm
             styleTextBox.Text = wineBottle.Style;
             stockTextBox.Text = wineBottle.Stock.ToString();
             cellarLocationTextBox.Text = wineBottle.CellarLocation;
-            buyingTextBox.Text = wineBottle.BuyingPrice.ToString() + " €";
-            sellingTextBox.Text = wineBottle.SellingPrice.ToString() + " €";
+            buyingTextBox.Text = $"{wineBottle.BuyingPrice} €";
+            sellingTextBox.Text = $"{wineBottle.SellingPrice} €";
             tastingTextBox.Text = wineBottle.TastingNotes;
         }
 
+        // Pulisce i campi di testo
         public void ClearText()
         {
             nameTextBox.Text = string.Empty;
@@ -85,29 +89,36 @@ namespace WineBottleManagerForm
             tastingTextBox.Text = string.Empty;
         }
 
+        // Pulisce i campi di testo e passa alla vista Catalogue
         private void btnAnotherBottle_Click(object sender, EventArgs e)
         {
-            this.ClearText();
-            this.btnToCatalogue_Click(sender, e);
+            ClearText();
+            btnToCatalogue_Click(sender, e);
         }
 
+        // Applica le modifiche alla bottiglia selezionata
         private void btnChangeBottle_Click(Object sender, EventArgs e)
         {
-            WineBottle modifiedBottle = new WineBottle(nameTextBox.Text,
-                                                       vineyardTextBox.Text,
-                                                       locationTextBox.Text,
-                                                       int.Parse(yearTextBox.Text),
-                                                       styleTextBox.Text,
-                                                       cellarLocationTextBox.Text,
-                                                       int.Parse(stockTextBox.Text),
-                                                       double.Parse(sellingTextBox.Text.Remove(sellingTextBox.Text.IndexOf("€"), 1)),
-                                                       double.Parse(buyingTextBox.Text.Remove(buyingTextBox.Text.IndexOf("€"), 1)),
-                                                       tastingTextBox.Text);
+            WineBottle modifiedBottle = new WineBottle(
+                nameTextBox.Text,
+                vineyardTextBox.Text,
+                locationTextBox.Text,
+                int.Parse(yearTextBox.Text),
+                styleTextBox.Text,
+                cellarLocationTextBox.Text,
+                int.Parse(stockTextBox.Text),
+                decimal.Parse(sellingTextBox.Text.Replace("€", "").Trim()),
+                decimal.Parse(buyingTextBox.Text.Replace("€", "").Trim()),
+                tastingTextBox.Text
+            );
 
             // Controlla le differenze tra modifiedBottle e selectedBottle e applica le modifiche a selectedBottle
             UpdateModifiedAttributes(modifiedBottle, wineManager.SelectedBottle);
+            var f = FormUtilities.OpenForm(this, wineManager, typeof(MainMenuForm)) as MainMenuForm;
+            f?.PopulateLbl(wineManager.SelectedBottle);
         }
 
+        // Applica le modifiche alle proprietà modificate della bottiglia selezionata
         private void UpdateModifiedAttributes(WineBottle modifiedBottle, WineBottle selectedBottle)
         {
             // Ottieni le proprietà di WineBottle utilizzando reflection
@@ -130,5 +141,6 @@ namespace WineBottleManagerForm
                 }
             }
         }
+        #endregion
     }
 }
