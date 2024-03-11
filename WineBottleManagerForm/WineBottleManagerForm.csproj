@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WineCellarManager\WineCellarManagerItems.csproj" />
+    <ProjectReference Include="..\WineCellarManager\WineCellarManagerItem.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,96 +1,101 @@
 ﻿using Microsoft.Data.SqlClient;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WineCellarManager;
 
-[TestFixture]
-public class WineManagerTests
+namespace WineCellarManager.Tests
 {
-    private WineManager wineManager;
-
-    [SetUp]
-    public void Setup()
+    [TestFixture]
+    public class WineManagerTests
     {
-        wineManager = new WineManager();
-    }
+        private WineManager wineManager;
 
-    [Test]
-    public void TestAddWineBottle()
-    {
-        // Arrange
-        var bottle = new WineBottle("Test Wine", "Test Vineyard", "Test Location", 2020, "Test Style", "Test Cellar", 10, 50.0m, 25.0m, "Test Tasting notes");
-        var initialCount = wineManager.GetWineBottles().Count;
+        [SetUp]
+        public void Setup()
+        {
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=M:\\desktop\\junk_cartelle\\Documents\\WineBottlesDb.mdf;Integrated Security=True;Connect Timeout=30";
+            wineManager = new WineManager(connectionString);
+        }
 
-        // Act
-        wineManager.AddWineBottle(bottle);
+        [Test]
+        public void TestAddWineBottle()
+        {
+            // Arrange
+            var bottle = new WineBottle("Test Wine", "Test Vineyard", "Test Location", 2020, "Test Style", "Test Cellar", 10, 50.0m, 25.0m, "Test Tasting notes");
+            var initialCount = wineManager.GetWineBottles().Count;
 
-        // Assert
-        var updatedCount = wineManager.GetWineBottles().Count;
-        Assert.That(updatedCount, Is.EqualTo(initialCount + 1));
-        Assert.That(wineManager.GetWineBottles(), Contains.Item(bottle));
-    }
+            // Act
+            wineManager.AddWineBottle(bottle);
 
-    [Test]
-    public void TestRemoveWineBottle()
-    {
-        // Arrange
-        var bottle = new WineBottle("Test Wine", "Test Vineyard", "Test Location", 2020, "Test Style", "Test Cellar", 10, 50.0m, 25.0m, "Test Tasting notes");
-        wineManager.AddWineBottle(bottle);
-        var initialCount = wineManager.GetWineBottles().Count;
+            // Assert
+            var updatedCount = wineManager.GetWineBottles().Count;
+            Assert.That(updatedCount, Is.EqualTo(initialCount + 1));
+            Assert.That(wineManager.GetWineBottles(), Contains.Item(bottle));
+        }
 
-        // Act
-        wineManager.RemoveWineBottle(bottle);
+        [Test]
+        public void TestRemoveWineBottle()
+        {
+            // Arrange
+            var bottle = new WineBottle("Test Wine", "Test Vineyard", "Test Location", 2020, "Test Style", "Test Cellar", 10, 50.0m, 25.0m, "Test Tasting notes");
+            wineManager.AddWineBottle(bottle);
+            var initialCount = wineManager.GetWineBottles().Count;
 
-        // Assert
-        var updatedCount = wineManager.GetWineBottles().Count;
-        Assert.That(updatedCount, Is.EqualTo(initialCount - 1));
-        Assert.That(wineManager.GetWineBottles(), Does.Not.Contain(bottle));
-    }
+            // Act
+            wineManager.RemoveWineBottle(bottle);
 
-    [Test]
-    public void TestUpdateWineBottleAttribute()
-    {
-        // Arrange
-        var bottle = new WineBottle("Test Wine", "Test Vineyard", "Test Location", 2020, "Test Style", "Test Cellar", 10, 50.0m, 25.0m, "Test Tasting notes");
+            // Assert
+            var updatedCount = wineManager.GetWineBottles().Count;
+            Assert.That(updatedCount, Is.EqualTo(initialCount - 1));
+            Assert.That(wineManager.GetWineBottles(), Does.Not.Contain(bottle));
+        }
 
-        // Act
-        wineManager.UpdateWineBottleAttribute(bottle, "Style", "New Style");
+        [Test]
+        public void TestUpdateWineBottleAttribute()
+        {
+            // Arrange
+            var bottle = new WineBottle("Test Wine", "Test Vineyard", "Test Location", 2020, "Test Style", "Test Cellar", 10, 50.0m, 25.0m, "Test Tasting notes");
 
-        // Assert
-        var updatedBottle = wineManager.GetWineBottles().FirstOrDefault(b => b.Name == "Test Wine");
-        Assert.That(updatedBottle, Is.Not.Null);
-        Assert.That(updatedBottle.Style, Is.EqualTo("New Style"));
-    }
+            // Act
+            wineManager.UpdateWineBottleAttribute(bottle, "Style", "New Style");
 
-    [Test]
-    public void TestSortWineBottles()
-    {
-        // Arrange
-        wineManager.AddWineBottle(new WineBottle("Test Wine 1", "Vineyard A", "Location A", 2010, "Style B", "Cellar A", 10, 50.0m, 25.0m, "Tasting notes A"));
-        wineManager.AddWineBottle(new WineBottle("Test Wine 2", "Vineyard B", "Location B", 2015, "Style A", "Cellar B", 5, 60.0m, 30.0m, "Tasting notes B"));
+            // Assert
+            var updatedBottle = wineManager.GetWineBottles().FirstOrDefault(b => b.Name == "Test Wine");
+            Assert.That(updatedBottle, Is.Not.Null);
+            Assert.That(updatedBottle.Style, Is.EqualTo("New Style"));
+        }
 
-        // Act
-        wineManager.SortWineBottles("Style", SortOrder.Ascending);
+        [Test]
+        public void TestSortWineBottles()
+        {
+            // Arrange
+            wineManager.AddWineBottle(new WineBottle("Test Wine 1", "Vineyard A", "Location A", 2010, "Style B", "Cellar A", 10, 50.0m, 25.0m, "Tasting notes A"));
+            wineManager.AddWineBottle(new WineBottle("Test Wine 2", "Vineyard B", "Location B", 2015, "Style A", "Cellar B", 5, 60.0m, 30.0m, "Tasting notes B"));
 
-        // Assert
-        var sortedBottles = wineManager.GetWineBottles().Select(b => b.Style).ToList();
-        var expectedSortedBottles = new List<string> { "Style A", "Style B" };
-        Assert.That(sortedBottles, Is.EqualTo(expectedSortedBottles));
-    }
+            // Act
+            wineManager.SortWineBottles("Style", SortOrder.Ascending);
 
-    [Test]
-    public void TestFilterWineBottles()
-    {
-        // Arrange
-        wineManager.AddWineBottle(new WineBottle("Test Wine 1", "Vineyard A", "Location A", 2010, "Style B", "Cellar A", 10, 50.0m, 25.0m, "Tasting notes A"));
-        wineManager.AddWineBottle(new WineBottle("Test Wine 2", "Vineyard B", "Location B", 2015, "Style A", "Cellar B", 5, 60.0m, 30.0m, "Tasting notes B"));
+            // Assert
+            var sortedStyles = wineManager.GetWineBottles().Select(b => b.Style).ToList();
+            var expectedSortedStyles = new List<string> { "Style A", "Style B" };
+            Assert.That(sortedStyles, Is.EqualTo(expectedSortedStyles));
+        }
 
-        // Act
-        var filteredBottles = wineManager.FilterWineBottles("Style", "A");
+        [Test]
+        public void TestFilterWineBottles()
+        {
+            // Arrange
+            wineManager.AddWineBottle(new WineBottle("Test Wine 1", "Vineyard A", "Location A", 2010, "Style B", "Cellar A", 10, 50.0m, 25.0m, "Tasting notes A"));
+            wineManager.AddWineBottle(new WineBottle("Test Wine 2", "Vineyard B", "Location B", 2015, "Style A", "Cellar B", 5, 60.0m, 30.0m, "Tasting notes B"));
 
-        // Assert
-        Assert.That(filteredBottles.Count, Is.EqualTo(1));
-        Assert.That(filteredBottles[0].Name, Is.EqualTo("Test Wine 2"));
+            // Act
+            var filteredBottles = wineManager.FilterWineBottles("Style", "A");
+
+            // Assert
+            Assert.That(filteredBottles.Count, Is.EqualTo(1));
+            Assert.That(filteredBottles[0].Name, Is.EqualTo("Test Wine 2"));
+        }
     }
 }
