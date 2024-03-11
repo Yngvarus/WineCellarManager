@@ -2,9 +2,3 @@ A manager at a high end restaurant needs an app to help manage the restaurants c
 The manager would like to know the vineyard, location, year, style, location in cellar, how many bottles remain, selling price, buying price, as well as tasting notes. 
 All fields need to be updatable as prices, tasting notes and years will all change frequently. 
 Restaurant's app to help manage the collection of high end bottles of wine.
-				     /	
--collection of (x) bottles of wine \/
-																      /	
--vineyard, location, year, style, location in cellar, how many bottles remain, selling price, buying price, as well as tasting notes\/
-								/
--All fields updatable as prices, tasting notes and yearschange\/
