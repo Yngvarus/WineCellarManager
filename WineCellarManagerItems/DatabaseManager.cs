@@ -1,43 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Xml;
 using Microsoft.Data.SqlClient;
 
 public class DatabaseManager
 {
     private readonly string _connectionString;
-    private readonly string _databaseFolder;
 
     public string ConnString => _connectionString;
 
     public DatabaseManager()
     {
+        string appSettingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.xml");
         // Carica la configurazione da appsettings.xml
         var xmlDoc = new XmlDocument();
-        xmlDoc.Load("appsettings.xml");
-
+        xmlDoc.Load(appSettingsFilePath);
 
         // Modifica per rendere generico il percorso del database
-        string databaseFolder = xmlDoc.SelectSingleNode("/configuration/DatabaseFolder").InnerText;
+        string databaseFolder = xmlDoc.SelectSingleNode("/configuration/appSettings/add[@key='DatabaseFolder']").Attributes["value"].Value;
         string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        _databaseFolder = Path.Combine(baseDirectory, databaseFolder);
-        _connectionString = xmlDoc.SelectSingleNode("/configuration/ConnectionStrings/DefaultConnection").InnerText;
+        string databaseFilePath = Path.Combine(baseDirectory, databaseFolder, "WineBottlesDb.mdf");
+        string logFilePath = Path.Combine(baseDirectory, databaseFolder, "WineBottlesDb_log.ldf");
+        _connectionString = xmlDoc.SelectSingleNode("/configuration/connectionStrings/add[@name='DefaultConnection']").Attributes["connectionString"].Value;
+
         if (CheckDatabaseExists())
         {
             return;
         }
         else
         {
-            CreateDatabase();
+            CreateDatabase(databaseFilePath, logFilePath);
         }
     }
 
     public bool CheckDatabaseExists()
     {
-        
         try
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -52,16 +49,13 @@ public class DatabaseManager
         }
     }
 
-    public void CreateDatabase()
+    public void CreateDatabase(string databaseFilePath, string logFilePath)
     {
         try
         {
             // Crea il database se non esiste
-            string databaseFilePath = Path.Combine(_databaseFolder, "WineBottlesDb.mdf");
-            string logFilePath = Path.Combine(_databaseFolder, "WineBottlesDb_log.ldf");
-
             string createDatabaseQuery = $@"
-            CREATE DATABASE WineBottlesDb
+            CREATE DATABASE IF NOT EXISTS WineBottlesDb
             ON PRIMARY (
                 NAME = WineBottlesDb,
                 FILENAME = '{databaseFilePath}'
@@ -71,7 +65,7 @@ public class DatabaseManager
                 FILENAME = '{logFilePath}'
             )";
 
-            using (var connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB;Integrated security=SSPI;database=WineBottlesDb"))
+            using (var connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB;Integrated security=SSPI;database=master"))
             {
                 using (var command = new SqlCommand(createDatabaseQuery, connection))
                 {
@@ -113,5 +107,6 @@ public class DatabaseManager
             Console.WriteLine($"Error creating database: {ex.Message}");
         }
     }
-
 }
+
+
