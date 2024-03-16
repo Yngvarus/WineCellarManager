@@ -1,8 +1,0 @@
-﻿<configuration>
-	<connectionStrings>
-		<add name="DefaultConnection" connectionString="Server=(LocalDB)\MSSQLLocalDB;Integrated Security=True;Database=WineBottlesDb;AttachDbFilename=|DataDirectory|\WineBottlesDb.mdf;Connect Timeout=30" providerName="System.Data.SqlClient" />
-	</connectionStrings>
-	<appSettings>
-		<add key="DatabaseFolder" value="|DataDirectory|" />
-	</appSettings>
-</configuration>
