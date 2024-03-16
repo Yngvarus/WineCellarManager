@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yK2oj0bRVwb0sUESQScnM/0df8hYPTg6lpHXpoSM1Cuyy1fVYHau1hTqs9m3lJ/bqheAHoGZBQje1qLD3eMopg==",
+  "dgSpecHash": "2GABZvOlfvm29A+Ukm4dJzAcXEBZe+S377GLQa38ZEFP3Pe83IOVUIFNbDPZffda7IGVEyiOniCt3NBQ40uryA==",
   "success": true,
   "projectFilePath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineBottleManagerForm\\WineBottleManagerForm.csproj",
   "expectedPackageFiles": [
@@ -36,8 +36,6 @@
     "M:\\Programmi x86\\Visual Studio\\Shared\\NuGetPackages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Igor\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\Igor\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\Igor\\.nuget\\packages\\nunit\\4.0.1\\nunit.4.0.1.nupkg.sha512",
-    "C:\\Users\\Igor\\.nuget\\packages\\nunit3testadapter\\4.5.0\\nunit3testadapter.4.5.0.nupkg.sha512",
     "C:\\Users\\Igor\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\Igor\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\Igor\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",

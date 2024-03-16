@@ -23,7 +23,7 @@ namespace WineBottleManagerForm
                     DataGridViewRow selectedRow = datagrid.SelectedRows[0];
                     wineManager.SelectedBottle = (WineBottle)selectedRow.DataBoundItem;
                 }
-                else { return null; }
+                
             }
             foreach (var item in openForms)
             {

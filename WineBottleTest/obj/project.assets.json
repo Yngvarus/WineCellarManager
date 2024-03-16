@@ -1306,19 +1306,17 @@
           }
         }
       },
-      "WineCellarManagerItem/1.0.0": {
+      "WineCellarManagerItems/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.15",
-          "NUnit": "4.0.1",
-          "NUnit3TestAdapter": "4.5.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.15"
         },
         "compile": {
-          "bin/placeholder/WineCellarManagerItem.dll": {}
+          "bin/placeholder/WineCellarManagerItems.dll": {}
         },
         "runtime": {
-          "bin/placeholder/WineCellarManagerItem.dll": {}
+          "bin/placeholder/WineCellarManagerItems.dll": {}
         }
       }
     }
@@ -3401,10 +3399,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "WineCellarManagerItem/1.0.0": {
+    "WineCellarManagerItems/1.0.0": {
       "type": "project",
-      "path": "../WineCellarManager/WineCellarManagerItem.csproj",
-      "msbuildProject": "../WineCellarManager/WineCellarManagerItem.csproj"
+      "path": "../WineCellarManagerItems/WineCellarManagerItems.csproj",
+      "msbuildProject": "../WineCellarManagerItems/WineCellarManagerItems.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3413,7 +3411,7 @@
       "NUnit >= 4.0.1",
       "NUnit.Analyzers >= 4.0.1",
       "NUnit3TestAdapter >= 4.5.0",
-      "WineCellarManagerItem >= 1.0.0",
+      "WineCellarManagerItems >= 1.0.0",
       "coverlet.collector >= 6.0.0"
     ]
   },
@@ -3450,8 +3448,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj": {
-              "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj"
+            "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj": {
+              "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj"
             }
           }
         }

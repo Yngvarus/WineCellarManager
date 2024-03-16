@@ -19,19 +19,15 @@ public class DatabaseManager
         var xmlDoc = new XmlDocument();
         xmlDoc.Load("appsettings.xml");
 
-        _connectionString = xmlDoc.SelectSingleNode("/configuration/ConnectionStrings/DefaultConnection").InnerText;
 
         // Modifica per rendere generico il percorso del database
         string databaseFolder = xmlDoc.SelectSingleNode("/configuration/DatabaseFolder").InnerText;
         string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         _databaseFolder = Path.Combine(baseDirectory, databaseFolder);
-
+        _connectionString = xmlDoc.SelectSingleNode("/configuration/ConnectionStrings/DefaultConnection").InnerText;
         if (CheckDatabaseExists())
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-            }
+            return;
         }
         else
         {
@@ -41,6 +37,7 @@ public class DatabaseManager
 
     public bool CheckDatabaseExists()
     {
+        
         try
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -74,7 +71,7 @@ public class DatabaseManager
                 FILENAME = '{logFilePath}'
             )";
 
-            using (var connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB;Integrated security=SSPI;database=master"))
+            using (var connection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB;Integrated security=SSPI;database=WineBottlesDb"))
             {
                 using (var command = new SqlCommand(createDatabaseQuery, connection))
                 {

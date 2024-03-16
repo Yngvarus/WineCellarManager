@@ -559,34 +559,6 @@
           }
         }
       },
-      "NUnit/4.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/nunit.framework.dll": {
-            "related": ".legacy.xml;.xml"
-          },
-          "lib/net6.0/nunit.framework.legacy.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/nunit.framework.dll": {
-            "related": ".legacy.xml;.xml"
-          },
-          "lib/net6.0/nunit.framework.legacy.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "build/_._": {}
-        }
-      },
-      "NUnit3TestAdapter/4.5.0": {
-        "type": "package",
-        "build": {
-          "build/netcoreapp3.1/_._": {}
-        }
-      },
       "System.Configuration.ConfigurationManager/6.0.1": {
         "type": "package",
         "dependencies": {
@@ -989,19 +961,17 @@
           }
         }
       },
-      "WineCellarManagerItem/1.0.0": {
+      "WineCellarManagerItems/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.15",
-          "NUnit": "4.0.1",
-          "NUnit3TestAdapter": "4.5.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.15"
         },
         "compile": {
-          "bin/placeholder/WineCellarManagerItem.dll": {}
+          "bin/placeholder/WineCellarManagerItems.dll": {}
         },
         "runtime": {
-          "bin/placeholder/WineCellarManagerItem.dll": {}
+          "bin/placeholder/WineCellarManagerItems.dll": {}
         }
       }
     }
@@ -1836,59 +1806,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "NUnit/4.0.1": {
-      "sha512": "jNTHZ01hJsDNPDSBycoHpavFZUBf9vRVQLCyuo78LRrrFj6Ol/CeqK+NIeTk5d8Eycjk59KseWb7X5Ge6z7CgQ==",
-      "type": "package",
-      "path": "nunit/4.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "CHANGES.md",
-        "LICENSE.txt",
-        "NOTICES.md",
-        "README.md",
-        "THIRD_PARTY_NOTICES.md",
-        "build/NUnit.props",
-        "icon.png",
-        "lib/net462/nunit.framework.dll",
-        "lib/net462/nunit.framework.legacy.dll",
-        "lib/net462/nunit.framework.legacy.xml",
-        "lib/net462/nunit.framework.xml",
-        "lib/net6.0/nunit.framework.dll",
-        "lib/net6.0/nunit.framework.legacy.dll",
-        "lib/net6.0/nunit.framework.legacy.xml",
-        "lib/net6.0/nunit.framework.xml",
-        "nunit.4.0.1.nupkg.sha512",
-        "nunit.nuspec"
-      ]
-    },
-    "NUnit3TestAdapter/4.5.0": {
-      "sha512": "s8JpqTe9bI2f49Pfr3dFRfoVSuFQyraTj68c3XXjIS/MRGvvkLnrg6RLqnTjdShX+AdFUCCU/4Xex58AdUfs6A==",
-      "type": "package",
-      "path": "nunit3testadapter/4.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/net462/NUnit3.TestAdapter.dll",
-        "build/net462/NUnit3.TestAdapter.pdb",
-        "build/net462/NUnit3TestAdapter.props",
-        "build/net462/nunit.engine.api.dll",
-        "build/net462/nunit.engine.core.dll",
-        "build/net462/nunit.engine.dll",
-        "build/net462/testcentric.engine.metadata.dll",
-        "build/netcoreapp3.1/NUnit3.TestAdapter.dll",
-        "build/netcoreapp3.1/NUnit3.TestAdapter.pdb",
-        "build/netcoreapp3.1/NUnit3TestAdapter.props",
-        "build/netcoreapp3.1/nunit.engine.api.dll",
-        "build/netcoreapp3.1/nunit.engine.core.dll",
-        "build/netcoreapp3.1/nunit.engine.dll",
-        "build/netcoreapp3.1/testcentric.engine.metadata.dll",
-        "docs/README.md",
-        "nunit3testadapter.4.5.0.nupkg.sha512",
-        "nunit3testadapter.nuspec",
-        "nunit_256.png"
-      ]
-    },
     "System.Configuration.ConfigurationManager/6.0.1": {
       "sha512": "jXw9MlUu/kRfEU0WyTptAVueupqIeE3/rl0EZDMlf8pcvJnitQ8HeVEp69rZdaStXwTV72boi/Bhw8lOeO+U2w==",
       "type": "package",
@@ -2706,15 +2623,15 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "WineCellarManagerItem/1.0.0": {
+    "WineCellarManagerItems/1.0.0": {
       "type": "project",
-      "path": "../WineCellarManager/WineCellarManagerItem.csproj",
-      "msbuildProject": "../WineCellarManager/WineCellarManagerItem.csproj"
+      "path": "../WineCellarManagerItems/WineCellarManagerItems.csproj",
+      "msbuildProject": "../WineCellarManagerItems/WineCellarManagerItems.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0-windows7.0": [
-      "WineCellarManagerItem >= 1.0.0"
+      "WineCellarManagerItems >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2750,8 +2667,8 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "projectReferences": {
-            "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj": {
-              "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj"
+            "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj": {
+              "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj"
             }
           }
         }

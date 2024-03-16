@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WineCellarManager\WineCellarManagerItem.csproj" />
+    <ProjectReference Include="..\WineCellarManagerItems\WineCellarManagerItems.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,0 @@
-M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerApp\obj\Debug\net7.0\WineBottleManager.csproj.AssemblyReference.cache
-M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerApp\obj\Debug\net7.0\WineBottleManager.GeneratedMSBuildEditorConfig.editorconfig
-M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerApp\obj\Debug\net7.0\WineBottleManager.AssemblyInfoInputs.cache
-M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerApp\obj\Debug\net7.0\WineBottleManager.AssemblyInfo.cs
-M:\desktop\junk_cartelle\Documents\GitHub\WineCellarManager\WineBottleManagerApp\obj\Debug\net7.0\WineBottleManager.csproj.CoreCompileInputs.cache

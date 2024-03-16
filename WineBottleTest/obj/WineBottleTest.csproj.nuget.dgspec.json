@@ -33,8 +33,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj": {
-                "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj"
+              "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj": {
+                "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj"
               }
             }
           }
@@ -99,14 +99,14 @@
         }
       }
     },
-    "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj": {
+    "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj",
-        "projectName": "WineCellarManagerItem",
-        "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\WineCellarManagerItem.csproj",
+        "projectUniqueName": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj",
+        "projectName": "WineCellarManagerItems",
+        "projectPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\WineCellarManagerItems.csproj",
         "packagesPath": "C:\\Users\\Igor\\.nuget\\packages\\",
-        "outputPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManager\\obj\\",
+        "outputPath": "M:\\desktop\\junk_cartelle\\Documents\\GitHub\\WineCellarManager\\WineCellarManagerItems\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "M:\\Programmi x86\\Visual Studio\\Shared\\NuGetPackages"
@@ -148,14 +148,6 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[7.0.15, )"
-            },
-            "NUnit": {
-              "target": "Package",
-              "version": "[4.0.1, )"
-            },
-            "NUnit3TestAdapter": {
-              "target": "Package",
-              "version": "[4.5.0, )"
             }
           },
           "imports": [

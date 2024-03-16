@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WineBottleManagerForm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5f57fc673e55f83327a662561d25536b8e4e728")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02087c228bbfac52324b08eab83392166eff16db")]
 [assembly: System.Reflection.AssemblyProductAttribute("WineBottleManagerForm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WineBottleManagerForm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

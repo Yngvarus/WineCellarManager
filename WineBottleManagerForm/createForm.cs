@@ -65,8 +65,8 @@ namespace WineBottleManagerForm
             styleTextBox.Text = string.Empty;
             stockTextBox.Text = string.Empty;
             cellarLocationTextBox.Text = string.Empty;
-            buyingTextBox.Text = "- €";
-            sellingTextBox.Text = "- €";
+            buyingTextBox.Text = string.Empty;
+            sellingTextBox.Text = string.Empty;
             tastingTextBox.Text = string.Empty;
         }
 
